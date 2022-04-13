@@ -17,8 +17,9 @@
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/services" />
+      <excludeFolder url="file://$MODULE_DIR$/javascript" />
     </content>
-    <orderEntry type="jdk" jdkName="Remote Python 3.8.10 Docker (prism_web:latest)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (PRISM)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
