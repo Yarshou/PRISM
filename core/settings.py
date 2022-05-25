@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'authentication'
+    'authentication',
+    'analyze',
 ]
 
 MIDDLEWARE = [
@@ -44,6 +45,12 @@ REST_FRAMEWORK = {
 }
 
 ROOT_URLCONF = 'core.urls'
+
+MEDIA_ROOT = 'media/user_media'
+
+MEDIA_URL = "/user_media/"
+
+STATIC_URL = 'media/'
 
 TEMPLATES = [
     {
@@ -112,6 +119,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+# CELERY_BROKER_URL = get_env_variable('REDIS_HOST') + "://" + get_env_variable('REDIS_HOST') + ":" + get_env_variable('REDIS_PORT')
+# CELERY_RESULT_BACKEND = get_env_variable('REDIS_HOST') + "://" + get_env_variable('REDIS_HOST') + ":" + get_env_variable('REDIS_PORT')
+
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

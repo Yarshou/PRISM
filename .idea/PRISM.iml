@@ -18,8 +18,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/services" />
       <excludeFolder url="file://$MODULE_DIR$/javascript" />
+      <excludeFolder url="file://$MODULE_DIR$/media" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8 (PRISM)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.8.10 Docker Compose (web at [/home/moulin/PycharmProjects/PRISM/docker-compose.yml])" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">

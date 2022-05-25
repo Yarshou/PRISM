@@ -10,15 +10,42 @@ services:
     env_file:
       - ./services/django/.env.dev
       - ./services/postgresql/.env
+    depends_on:
+      - redis
   postgresql:
     image: postgres:13.4-alpine
     hostname: $${POSTGRES_HOST}
-    container_name: halo-db
+    container_name: postgresql
     env_file:
       - services/postgresql/.env
     ports:
       - "5920:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  redis:
+    image: redis:alpine
+  celery:
+    build: ./
+    command: celery -A core worker -l info
+    volumes:
+      - ./:/usr/src/app/
+    env_file:
+      - services/django/.env.dev
+      - services/celery/.env
+      - services/postgresql/.env
+    depends_on:
+      - redis
+  celery-beat:
+    build: ./
+    command: celery -A core beat -l info
+    volumes:
+      - ./:/usr/src/app/
+    env_file:
+      - services/django/.env.dev
+      - services/celery/.env
+      - services/postgresql/.env
+    depends_on:
+      - redis
+
 volumes:
   postgres_data:
