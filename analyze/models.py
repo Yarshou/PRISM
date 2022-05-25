@@ -16,9 +16,9 @@ class Group(models.Model):
 
 
 class Encodings(models.Model):
-    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='related_vectors')
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='related_photos')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, related_name='related_groups')
     vector = NDArrayField(shape=(128,), dtype=np.float64)
 
     class Meta:

@@ -43,9 +43,9 @@ class RegistrationAPIView(APIView):
         if user_avatar and isinstance(*user_avatar, django.core.files.uploadedfile.InMemoryUploadedFile):
             validator = PhotoValidator(*user_avatar)
             if not validator.photo_has_face():
-                raise Response({'No person were found in the image, try another photo'})
+                return Response({'No person were found in the image, try another photo'})
             elif validator.photo_has_multiple_faces():
-                raise Response({'There must be one person in the photo'})
+                return Response({'There must be one person in the photo'})
         else:
             return Response({'User must have an Avatar'})
 

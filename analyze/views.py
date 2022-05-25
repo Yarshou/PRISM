@@ -1,4 +1,5 @@
 from rest_framework import viewsets, status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from analyze.models import Photo
@@ -9,6 +10,7 @@ from analyze.utils.helpers import process_photo
 class PhotoListView(viewsets.ModelViewSet):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+    permission_classes = (AllowAny,)
 
     def list(self, request, *args, **kwargs):
         serializer = PhotoSerializer(data=Photo.objects.all())
@@ -18,13 +20,7 @@ class PhotoListView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
+        print(request.data)
         process_photo(request.data.getlist('images'))
-        raise KeyError
-        # serializer = self.serializer_class(data=request.data)
-        # try:
-        #     for image in request.FILES['images']:
-        #         pass
-                # if not serializer.is_valid():
-                #     return Response(data={'detail': 'img must be uploaded'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # return Response({})
+        return Response({'detail': 'Photos are currently uploading, please wait'}, status=status.HTTP_200_OK)
