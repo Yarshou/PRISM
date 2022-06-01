@@ -2,7 +2,7 @@ from django.urls import path
 
 from analyze import views
 
-app_name = 'authentication'
+app_name = 'analyze'
 
 urlpatterns = [
     path('', views.PhotoListView.as_view({'get': 'list'})),

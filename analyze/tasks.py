@@ -14,7 +14,6 @@ logger = get_task_logger(__name__)
 
 @celery_app.task()
 def compare_avatar_with_groups(*args, **kwargs):
-
     groups_qs = Group.objects.filter(user__isnull=True).prefetch_related(
         Prefetch(
             'related_groups',
@@ -78,6 +77,7 @@ def compare_with_avatars(*args, **kwargs) -> List[int]:
 
 @celery_app.task()
 def compare_with_groups(*args, **kwargs):
+
     groups_qs = Group.objects.filter(user__isnull=True).prefetch_related(
         Prefetch(
             'related_groups',
@@ -86,25 +86,18 @@ def compare_with_groups(*args, **kwargs):
         )
     )
 
-    if groups_qs and args[0]:
+    new_encodings = Encodings.objects.filter(id__in=args[0])
 
-        group_encodings_dict = {f'{qs.encodings[0].group.id}': qs.encodings[0].vector for qs in groups_qs}
-        photo_encodings_dict = {f'{enc.id}': enc.vector for enc in Encodings.objects.filter(id__in=args[0])}
+    for enc in new_encodings:
+        has_group = False
+        for group in groups_qs:
+            if any(face_recognition.compare_faces([qs.vector for qs in group.encodings], enc.vector)):
+                enc.group = group
+                enc.save()
+                has_group = True
+                break
 
-        for group_id, group_encoding in group_encodings_dict.items():
-            for encoding_id, encoding_vector in photo_encodings_dict.items():
-                if any(face_recognition.compare_faces([group_encoding, ], encoding_vector)):
-                    enc_obj = Encodings.objects.get(id=encoding_id)
-                    enc_obj.group = Group.objects.get(id=group_id)
-                    enc_obj.save()
-                else:
-                    group = Group.objects.create(user=None)
-                    enc_obj = Encodings.objects.get(id=encoding_id)
-                    enc_obj.group = group
-                    enc_obj.save()
-    elif args[0]:
-        for encoding_id in args[0]:
-            group = Group.objects.create(user=None)
-            enc_obj = Encodings.objects.get(id=encoding_id)
-            enc_obj.group = group
-            enc_obj.save()
+        if not has_group:
+            new_group = Group.objects.create()
+            enc.group = new_group
+            enc.save()

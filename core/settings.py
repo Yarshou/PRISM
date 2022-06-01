@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'authentication',
     'analyze',
@@ -26,6 +27,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -46,11 +48,14 @@ REST_FRAMEWORK = {
 
 ROOT_URLCONF = 'core.urls'
 
-MEDIA_ROOT = 'media/user_media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+print('MEDIA ROOT IS', MEDIA_ROOT)
+MEDIA_URL = "/media/"
 
-MEDIA_URL = "/user_media/"
-
-STATIC_URL = 'media/'
+STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 TEMPLATES = [
     {
@@ -63,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -124,5 +130,14 @@ USE_TZ = True
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_HEADERS_ORIGINS = [
+#     'http://localhost:3000',
+#     'http://localhost:3000/',
+#     'http://0.0.0.0:3000/',
+#     'http://127.0.0.1:3000/',
+# ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

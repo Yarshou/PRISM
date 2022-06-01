@@ -6,8 +6,13 @@ from ndarraydjango.fields import NDArrayField
 from django.conf import settings
 
 
+class Event(models.Model):
+    name = models.CharField(max_length=30, blank=False, null=False, unique=True)
+
+
 class Photo(models.Model):
     img = models.ImageField(upload_to='user_media', blank=False, null=False)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True, blank=False, related_name='related_event')
     is_avatar = models.BooleanField(default=False)
 
 

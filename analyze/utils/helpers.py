@@ -1,6 +1,6 @@
 from celery import chain
 
-from analyze.models import Photo, Encodings
+from analyze.models import Photo, Encodings, Event
 from analyze.tasks import compare_with_avatars, create_encodings, compare_with_groups, compare_avatar_with_groups
 from analyze.utils.utils import encode_photo
 
@@ -20,9 +20,13 @@ def create_user_avatar(img, user=None) -> None:
 
 
 
-def process_photo(photo_list) -> None:
+def process_photo(photo_list, event_name) -> None:
+    try:
+        event = Event.objects.get(name=event_name)
+    except Event.DoesNotExist:
+        event = Event.objects.create(name=event_name)
     photo_queryset = Photo.objects.bulk_create([
-        Photo(img=img, is_avatar=False) for img in photo_list
+        Photo(img=img, event=event, is_avatar=False) for img in photo_list
     ])
 
     chain(
