@@ -4,7 +4,7 @@ import face_recognition
 from django.db.models import Prefetch
 
 from analyze.models import Photo, Encodings, Group
-from analyze.utils.utils import encode_photo
+from utils.utils import encode_photo
 from authentication.models import User
 from core import celery_app, settings
 from celery.utils.log import get_task_logger

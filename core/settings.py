@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication',
     'analyze',
+    'moderator',
 ]
 
 MIDDLEWARE = [
@@ -37,7 +38,7 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'EXCEPTION_HANDLER': 'authentication.exceptions.core_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'error',
@@ -49,7 +50,6 @@ REST_FRAMEWORK = {
 ROOT_URLCONF = 'core.urls'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-print('MEDIA ROOT IS', MEDIA_ROOT)
 MEDIA_URL = "/media/"
 
 STATIC_URL = "static/"
@@ -133,6 +133,8 @@ CELERY_RESULT_BACKEND = "redis://redis:6379"
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000/', 'http://localhost:3000']
 # CORS_HEADERS_ORIGINS = [
 #     'http://localhost:3000',
 #     'http://localhost:3000/',

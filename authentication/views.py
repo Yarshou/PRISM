@@ -6,8 +6,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 # from .renderers import UserJSONRenderer
-from analyze.utils.helpers import create_user_avatar
-from analyze.utils.validators import PhotoValidator
+from utils.helpers import create_user_avatar
+from utils.validators import PhotoValidator
 from .models import User
 from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer
 

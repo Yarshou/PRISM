@@ -1,6 +1,6 @@
 from django.urls import path
 
-from dashboard.views import AvatarListView, EventListView, UserPhotoListView
+from dashboard.views import AvatarListView, EventListView, UserPhotoListView, make_request
 
 app_name = 'dashboard'
 
@@ -10,4 +10,5 @@ urlpatterns = [
     path('event/', EventListView.as_view()),
     path('event/<str:event_name>', EventListView.as_view()),
     path('user-photos/<str:event>', UserPhotoListView.as_view()),
+    path('request/', make_request),
 ]

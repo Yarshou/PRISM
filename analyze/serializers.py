@@ -2,16 +2,19 @@ import face_recognition
 from rest_framework import serializers
 
 from analyze.models import Photo, Encodings
-from analyze.utils.validators import PhotoValidator
+from utils.validators import PhotoValidator
 
 
 class PhotoListSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
     img = serializers.ImageField(required=True)
-    event = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    event = serializers.CharField(required=False, allow_blank=True)
     users = serializers.SerializerMethodField()
 
     class Meta:
+        model = Photo
         fields = (
+            'id',
             'img',
             'event',
             'users'

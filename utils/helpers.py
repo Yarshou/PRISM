@@ -2,7 +2,7 @@ from celery import chain
 
 from analyze.models import Photo, Encodings, Event
 from analyze.tasks import compare_with_avatars, create_encodings, compare_with_groups, compare_avatar_with_groups
-from analyze.utils.utils import encode_photo
+from utils.utils import encode_photo
 
 
 def create_user_avatar(img, user=None) -> None:
